@@ -50,6 +50,16 @@ jobs:
             Write-Host "✅ Patched backing-store.cc"
           }
 
+          $toolchain = "build/toolchain/win/setup_toolchain.py"
+          if (Test-Path $toolchain) {
+            $installedSdk = (Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\Include" -Directory | Sort-Object Name -Descending | Select-Object -First 1).Name
+            if ($installedSdk) {
+              Write-Host "Detected installed Windows SDK: $installedSdk"
+              (Get-Content $toolchain) -replace "SDK_VERSION\s*=\s*['`"][^'`"]+['`"]", "SDK_VERSION = '$installedSdk'" | Set-Content $toolchain
+              Write-Host "✅ Patched setup_toolchain.py SDK_VERSION to $installedSdk"
+            }
+          }
+
       - name: Configure Build
         working-directory: v8_build/v8
         shell: bash
