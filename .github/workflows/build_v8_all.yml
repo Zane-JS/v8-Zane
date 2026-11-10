@@ -24,9 +24,9 @@ on:
         type: boolean
         default: false
       release_tag:
-        description: "Release Tag Name (e.g. v14.7.13-1)"
+        description: "Release Tag Name (e.g. v15.7.112.23-1)"
         type: string
-        default: "v14.7.13"
+        default: "v15.7.112.23"
 
 jobs:
   trigger-builds:

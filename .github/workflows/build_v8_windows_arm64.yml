@@ -36,8 +36,8 @@ jobs:
           export DEPOT_TOOLS_UPDATE=0
           fetch --no-history v8
           cd v8
-          git fetch origin refs/tags/14.7.13:refs/tags/14.7.13 --depth=1
-          git checkout 14.7.13
+          git fetch origin refs/tags/15.7.112.23:refs/tags/15.7.112.23 --depth=1
+          git checkout 15.7.112.23
           gclient sync --no-history --shallow --force
 
       - name: Patch V8 Source (Windows)
