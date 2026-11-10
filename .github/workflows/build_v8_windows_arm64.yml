@@ -66,6 +66,18 @@ jobs:
             Write-Host "✅ Patched NTDDI_VERSION in $win_gn"
           }
 
+          $map_h = "src/objects/map.h"
+          if (Test-Path $map_h) {
+            $content = Get-Content $map_h -Raw
+            $target = 'std::atomic<BitsEx> bit_field_ex_;'
+            $patch = "std::atomic<BitsEx> bit_field_ex_;`n#if TAGGED_SIZE_8_BYTES`n  uint8_t padding_[3];`n#endif"
+            if ($content -notmatch 'uint8_t padding_\[3\];') {
+              $content = $content.Replace($target, $patch)
+              Set-Content -Path $map_h -Value $content -NoNewline
+              Write-Host "✅ Patched ExtendedMap alignment padding in $map_h"
+            }
+          }
+
       - name: Configure Build
         working-directory: v8_build/v8
         shell: bash
