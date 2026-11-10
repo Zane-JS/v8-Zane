@@ -52,7 +52,7 @@ jobs:
 
           $toolchain = "build/toolchain/win/setup_toolchain.py"
           if (Test-Path $toolchain) {
-            $installedSdk = (Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\Include" -Directory | Sort-Object Name -Descending | Select-Object -First 1).Name
+            $installedSdk = (Get-ChildItem "C:\Program Files (x86)\Windows Kits\10\Include" -Directory | Where-Object { $_.Name -match '^10\.' } | Sort-Object Name -Descending | Select-Object -First 1).Name
             if ($installedSdk) {
               Write-Host "Detected installed Windows SDK: $installedSdk"
               (Get-Content $toolchain) -replace "SDK_VERSION\s*=\s*['`"][^'`"]+['`"]", "SDK_VERSION = '$installedSdk'" | Set-Content $toolchain
