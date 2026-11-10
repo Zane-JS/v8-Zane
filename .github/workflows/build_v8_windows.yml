@@ -59,6 +59,12 @@ jobs:
             }
           }
 
+          $win_gn = "build/config/win/BUILD.gn"
+          if (Test-Path $win_gn) {
+            (Get-Content $win_gn) -replace 'NTDDI_VERSION=NTDDI_WIN11_BR', 'NTDDI_VERSION=NTDDI_WIN11_GE' | Set-Content $win_gn
+            Write-Host "✅ Patched NTDDI_VERSION in $win_gn"
+          }
+
       - name: Configure Build
         working-directory: v8_build/v8
         shell: bash
